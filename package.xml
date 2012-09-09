@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package>
+	<displayName>UserService</displayName>
+	<shortDescription>A set of class to manage log-in and log-out of web applications.</shortDescription>
+	<docUrl>http://www.thecodingmachine.com/ext/mouf/doc/manage_users/userservice_package.html</docUrl>
+	<doc>
+		<page title="Using the User Service" url="userservice_package.html" />
+	</doc>	
+	<logo>logo.png</logo>
+	<dependencies>
+		<dependency>
+			<group>utils/log</group>
+			<name>log_interface</name>
+			<version>>=1.0</version>
+		</dependency>
+		<dependency>
+			<group>utils/common</group>
+			<name>conditioninterface</name>
+			<version>>=1.0</version>
+		</dependency>
+	</dependencies>
+	<requires>
+		<require>UserDaoException.php</require>
+		<require>UserServiceException.php</require>
+		<require>AuthenticationListenerInterface.php</require>
+		<require>UserInterface.php</require>
+		<require>UserWithMailInterface.php</require>
+		<require>UserDaoInterface.php</require>
+		<require>UserServiceInterface.php</require>
+		<require>MoufUserService.php</require>
+		<require>IsLoggedCondition.php</require>
+	</requires>
+	<adminRequires>
+		<require>MoufUserServiceValidators.php</require>
+	</adminRequires>	
+</package>
