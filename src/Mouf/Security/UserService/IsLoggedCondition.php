@@ -1,6 +1,8 @@
 <?php
 namespace Mouf\Security\UserService;
 
+use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
+
 /**
  * The condition is true if the current user is logged, and is false if the current
  * user is not logged.
