@@ -3,7 +3,7 @@
     "description": "A set of PHP class to manage log-in and log-out of web applications and that integrates with Mouf.",
     "keywords": ["security", "user", "user management"],
     "homepage": "https://github.com/thecodingmachine/security.userservice",
-    "type": "library",
+    "type": "mouf-library",
     "license": "MIT",
     "authors": [
         {
