@@ -1,6 +1,10 @@
 <?php
 namespace Mouf\Security\UserService;
 
+use Mouf\Utils\Log\LogInterface;
+
+
+
 /**
  * This class can be used to login or logoff users, and get their object.
  * Please see documentation at: <a href="http://www.thecodingmachine.com/ext/mouf/doc/manage_users/userservice_package.html">http://www.thecodingmachine.com/ext/mouf/doc/manage_users/userservice_package.html</a>
