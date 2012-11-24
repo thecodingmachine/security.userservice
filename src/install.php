@@ -15,7 +15,7 @@ InstallUtils::init(InstallUtils::$INIT_APP);
 
 // Let's create the instance
 $moufManager = MoufManager::getMoufManager();
-if (!$moufManager->instanceExists("fileCacheService")) {
+if (!$moufManager->instanceExists("userService")) {
 	$userService = $moufManager->createInstance("Mouf\\Security\\UserService\\UserService");
 	$userService->setName("userService");
 	if ($moufManager->instanceExists("errorLogLogger")) {
