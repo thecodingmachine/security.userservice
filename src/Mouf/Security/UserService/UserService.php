@@ -1,7 +1,10 @@
 <?php
 namespace Mouf\Security\UserService;
 
+use Mouf\MoufException;
+
 use Mouf\Utils\Log\LogInterface;
+
 
 
 
