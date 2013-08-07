@@ -24,6 +24,7 @@
     },
     "extra": {
     	"mouf": {
+    	    "logo": "logo.png",
 	    	"install": [
 	    		{
 	    			"type": "file",
