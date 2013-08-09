@@ -2,10 +2,8 @@
 namespace Mouf\Security\UserService;
 
 use Mouf\MoufException;
-
 use Mouf\Utils\Log\LogInterface;
-
-
+use Mouf\Utils\Session\SessionManager\SessionManagerInterface;
 
 
 /**
@@ -86,6 +84,14 @@ class UserService implements UserServiceInterface {
 	public $redirectParameter = "redirect";
 	
 	/**
+	 * The session manager interface.
+	 * If set, it will be used to init the session if the session was not started.
+	 * 
+	 * @var SessionManagerInterface
+	 */
+	public $sessionManager;
+	
+	/**
 	 * Logs the user using the provided login and password.
 	 * Returns true on success, false if the user or password is incorrect.
 	 * A Mouf Exception is thrown if no session is initialized. Require the mouf/load.php file in Mouf to start a session.
@@ -97,7 +103,11 @@ class UserService implements UserServiceInterface {
 	public function login($login, $password) {
 		// Is a session mechanism available?
 		if (!session_id()) {
-			throw new MoufException("The session must be initialized before trying to login. Please use session_start().");
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before trying to login. Please use session_start().");
+			}
 		}
 		
 		// First, if we are logged, let's unlog the user.

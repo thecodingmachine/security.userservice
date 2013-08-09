@@ -21,6 +21,9 @@ if (!$moufManager->instanceExists("userService")) {
 	if ($moufManager->instanceExists("errorLogLogger")) {
 		$userService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("errorLogLogger"));
 	}
+	if ($moufManager->instanceExists("sessionManager")) {
+		$userService->getProperty("sessionManager")->setValue($moufManager->getInstanceDescriptor("sessionManager"));
+	}
 }
 
 // Let's rewrite the MoufComponents.php file to save the component
