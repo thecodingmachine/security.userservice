@@ -13,6 +13,7 @@ In order to use this package, you will have to develop some components on your s
 to log a user, to know whether a user is logged or not, .... This package does not provide any way to store or retrieve users from your database. This is up to you.
 
 The package contains these classes and interfaces:
+
 - A <b>UserService</b> class: this is the main class. It can be used to login a user, to logout the user, to know whether a user is logged or not, etc...
 - A <b>UserServiceInterface</b> interface: most libraries relying on the "userservice" will rely on this interface. If the default
   <b>UserService</b> class does not meet your requirements, you can develop you own "userservice" instance that will implement the <b>UserServiceInterface</b>
