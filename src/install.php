@@ -18,8 +18,8 @@ $moufManager = MoufManager::getMoufManager();
 if (!$moufManager->instanceExists("userService")) {
 	$userService = $moufManager->createInstance("Mouf\\Security\\UserService\\UserService");
 	$userService->setName("userService");
-	if ($moufManager->instanceExists("errorLogLogger")) {
-		$userService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("errorLogLogger"));
+	if ($moufManager->instanceExists("psr.errorLogLogger")) {
+		$userService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("psr.errorLogLogger"));
 	}
 	if ($moufManager->instanceExists("sessionManager")) {
 		$userService->getProperty("sessionManager")->setValue($moufManager->getInstanceDescriptor("sessionManager"));

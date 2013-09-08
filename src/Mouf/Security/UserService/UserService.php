@@ -4,7 +4,7 @@ namespace Mouf\Security\UserService;
 use Mouf\MoufException;
 use Mouf\Utils\Log\LogInterface;
 use Mouf\Utils\Session\SessionManager\SessionManagerInterface;
-
+use Psr\Log\LoggerInterface;
 
 /**
  * This class can be used to login or logoff users, and get their object.
@@ -39,7 +39,7 @@ class UserService implements UserServiceInterface {
 	 *
 	 * @Property
 	 * @Compulsory
-	 * @var LogInterface
+	 * @var LoggerInterface|LogInterface
 	 */
 	public $log;
 	
@@ -117,7 +117,11 @@ class UserService implements UserServiceInterface {
 		
 		$user = $this->userDao->getUserByCredentials($login, $password);
 		if ($user != null) {
-			$this->log->trace("User '".$user->getLogin()."' logs in.");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->debug("User '{login}' logs in.", array('login'=>$user->getLogin()));
+			} else {
+				$this->log->trace("User '".$user->getLogin()."' logs in.");
+			}
 			$_SESSION[$this->sessionPrefix.'MoufUserId'] = $user->getId();
 			$_SESSION[$this->sessionPrefix.'MoufUserLogin'] = $user->getLogin();
 			
@@ -128,7 +132,11 @@ class UserService implements UserServiceInterface {
 			}
 			return true;
 		} else {
-			$this->log->trace("Identication failed for login '".$user."'");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->debug("Identication failed for login '{login}'", array('login'=>$user->getLogin()));
+			} else {
+				$this->log->trace("Identication failed for login '".$user->getLogin()."'");
+			}
 			return false;
 		}
 	}
@@ -152,7 +160,11 @@ class UserService implements UserServiceInterface {
 		if ($user == null) {
 			throw new UserServiceException("Unable to find user whose login is ".$login);
 		}
-		$this->log->trace("User '".$user->getLogin()."' logs in, without providing a password.");
+		if ($this->log instanceof LoggerInterface) {
+			$this->log->debug("User '{login}' logs in, without providing a password.", array('login'=>$user->getLogin()));
+		} else {
+			$this->log->trace("User '".$user->getLogin()."' logs in, without providing a password.");
+		}
 		$_SESSION[$this->sessionPrefix.'MoufUserId'] = $user->getId();
 		$_SESSION[$this->sessionPrefix.'MoufUserLogin'] = $user->getLogin();
 		
@@ -218,8 +230,11 @@ class UserService implements UserServiceInterface {
 					$listener->beforeLogOut($this);
 				}
 			}
-			
-			$this->log->trace("User ".$_SESSION[$this->sessionPrefix.'MoufUserLogin']." logs out.");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->debug("User '{login}' logs out.", array('login'=>$user->getLogin()));
+			} else {
+				$this->log->trace("User '".$user->getLogin()."' logs out.");
+			}
 			unset($_SESSION[$this->sessionPrefix.'MoufUserId']);
 			unset($_SESSION[$this->sessionPrefix.'MoufUserLogin']);
 		}
