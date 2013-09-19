@@ -133,9 +133,9 @@ class UserService implements UserServiceInterface {
 			return true;
 		} else {
 			if ($this->log instanceof LoggerInterface) {
-				$this->log->debug("Identication failed for login '{login}'", array('login'=>$user->getLogin()));
+				$this->log->debug("Identication failed for login '{login}'", array('login'=>$login));
 			} else {
-				$this->log->trace("Identication failed for login '".$user->getLogin()."'");
+				$this->log->trace("Identication failed for login '".$login."'");
 			}
 			return false;
 		}
@@ -231,9 +231,9 @@ class UserService implements UserServiceInterface {
 				}
 			}
 			if ($this->log instanceof LoggerInterface) {
-				$this->log->debug("User '{login}' logs out.", array('login'=>$user->getLogin()));
+				$this->log->debug("User '{login}' logs out.", array('login'=>$_SESSION[$this->sessionPrefix.'MoufUserLogin']));
 			} else {
-				$this->log->trace("User '".$user->getLogin()."' logs out.");
+				$this->log->trace("User '".$_SESSION[$this->sessionPrefix.'MoufUserLogin']."' logs out.");
 			}
 			unset($_SESSION[$this->sessionPrefix.'MoufUserId']);
 			unset($_SESSION[$this->sessionPrefix.'MoufUserLogin']);
