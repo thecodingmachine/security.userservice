@@ -201,6 +201,15 @@ class UserService implements UserServiceInterface {
 	 * @return boolean
 	 */
 	public function isLogged() {
+		// Is a session mechanism available?
+		if (!session_id()) {
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+			}
+		}
+		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])) {
 			return true;
 		} else {
