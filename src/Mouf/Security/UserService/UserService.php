@@ -233,6 +233,15 @@ class UserService implements UserServiceInterface {
 	 *
 	 */
 	public function logoff() {
+		// Is a session mechanism available?
+		if (!session_id()) {
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before trying to login. Please use session_start().");
+			}
+		}
+		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserLogin'])) {
 			if (is_array($this->authenticationListeners)) {
 				foreach ($this->authenticationListeners as $listener) {
@@ -255,6 +264,15 @@ class UserService implements UserServiceInterface {
 	 * @return string
 	 */
 	public function getUserId() {
+		// Is a session mechanism available?
+		if (!session_id()) {
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+			}
+		}
+		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId']))
 			return $_SESSION[$this->sessionPrefix.'MoufUserId'];
 		else
@@ -267,6 +285,15 @@ class UserService implements UserServiceInterface {
 	 * @return string
 	 */
 	public function getUserLogin() {
+		// Is a session mechanism available?
+		if (!session_id()) {
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+			}
+		}
+		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserLogin']))
 			return $_SESSION[$this->sessionPrefix.'MoufUserLogin'];
 		else
@@ -279,6 +306,15 @@ class UserService implements UserServiceInterface {
 	 * return UserInterface
 	 */
 	public function getLoggedUser() {
+		// Is a session mechanism available?
+		if (!session_id()) {
+			if ($this->sessionManager) {
+				$this->sessionManager->start();
+			} else {
+				throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+			}
+		}
+		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])) {
 			return $this->userDao->getUserById($_SESSION[$this->sessionPrefix.'MoufUserId']);
 		} else {
