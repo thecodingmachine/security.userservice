@@ -5,6 +5,9 @@ use Mouf\MoufException;
 use Mouf\Utils\Log\LogInterface;
 use Mouf\Utils\Session\SessionManager\SessionManagerInterface;
 use Psr\Log\LoggerInterface;
+use Mouf\Validator\MoufStaticValidatorInterface;
+use Mouf\MoufManager;
+use Mouf\Validator\MoufValidatorResult;
 
 /**
  * This class can be used to login or logoff users, and get their object.
@@ -12,7 +15,7 @@ use Psr\Log\LoggerInterface;
  *
  * @Component
  */
-class UserService implements UserServiceInterface {
+class UserService implements UserServiceInterface, MoufStaticValidatorInterface {
 	
 	/**
 	 * The path to the login page, relative to the root of the application.
@@ -322,5 +325,20 @@ class UserService implements UserServiceInterface {
 		}
 	}
 	
+	/**
+	 * Runs the validation of the class.
+	 * Returns a MoufValidatorResult explaining the result.
+	 *
+	 * @return MoufValidatorResult
+	 */
+	public static function validateClass() {
+		$instanceExists = MoufManager::getMoufManager()->instanceExists('userService');
+		
+		if ($instanceExists) {
+			return new MoufValidatorResult(MoufValidatorResult::SUCCESS, "<b>Userservice:</b> 'userService' instance found");
+		} else {
+			return new MoufValidatorResult(MoufValidatorResult::WARN, "<b>Userservice:</b> Unable to find the 'userService' instance. First, be sure to check that you have run all the required install processes. If you plan to use the UserService package, you need to run it's install process. It will create the 'userService' instance.");
+		}
+	}
 }
 ?>
