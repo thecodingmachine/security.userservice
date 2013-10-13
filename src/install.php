@@ -24,7 +24,7 @@ if (!$moufManager->instanceExists("userService")) {
 	if ($moufManager->instanceExists("sessionManager")) {
 		$userService->getProperty("sessionManager")->setValue($moufManager->getInstanceDescriptor("sessionManager"));
 	}
-	$userService->getProperty('sessionPrefix')->setValue('ROOT_URL')->setOrigin('config');
+	$userService->getProperty('sessionPrefix')->setValue('SECRET')->setOrigin('config');
 }
 
 // Let's rewrite the MoufComponents.php file to save the component
