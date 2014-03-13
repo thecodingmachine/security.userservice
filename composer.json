@@ -38,6 +38,11 @@
 					"type" : "file"
 				}
 			],
+			"doc" : [{
+					"title" : "Using value objects",
+					"url" : "doc/valueobject.md"
+				}
+			],
 			"logo" : "logo.png"
 		}
 	}
