@@ -44,7 +44,7 @@
 					"url" : "doc/usersserviceInstallation.md"
 				},
 				{
-					"title" : "Configure Dao",
+					"title" : "Configure the project",
 					"url" : "doc/userServiceInterfaces.md"
 				},
 				{
@@ -52,13 +52,9 @@
 					"url" : "doc/configure_user_service.md"
 				},
 				{
-					"title" : "Create login page",
-					"url" : "doc/userServiceSample.md"
-				},
-				{
-					"title" : "About",
-					"url" : "doc/usersservicePackages.md"
-				},
+					"title" : "UserService - Quick Example",
+					"url" : "doc/userservicesample.md"
+				}
 			],
 			"logo" : "logo.png"
 		}
