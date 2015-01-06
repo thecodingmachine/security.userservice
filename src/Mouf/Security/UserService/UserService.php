@@ -54,8 +54,6 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 * For instance, the MoufRightsService, that manages the rights of users is
 	 * one of those. 
 	 *
-	 * @Property
-	 * @Compulsory
 	 * @var array<AuthenticationListenerInterface>
 	 */
 	public $authenticationListeners;
@@ -93,6 +91,12 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 * @var SessionManagerInterface
 	 */
 	public $sessionManager;
+	
+	/**
+	 * A list of authentication providers that will complete the default 'logged' status, and help retrieve the current user
+	 * @var array<AuthenticationProviderInterface>
+	 */
+	private $authProviders = [];
 	
 	/**
 	 * Logs the user using the provided login and password.
@@ -155,7 +159,7 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 */
 	public function loginWithoutPassword($login) {
 		// First, if we are logged, let's unlog the user.
-		if ($this->isLogged()) {
+		if (!$this->byPassIsLogged && $this->isLogged()) {
 			$this->logoff();
 		}
 		
@@ -168,6 +172,7 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 		} else {
 			$this->log->trace("User '".$user->getLogin()."' logs in, without providing a password.");
 		}
+		
 		$_SESSION[$this->sessionPrefix.'MoufUserId'] = $user->getId();
 		$_SESSION[$this->sessionPrefix.'MoufUserLogin'] = $user->getLogin();
 		
@@ -204,20 +209,33 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 * @return boolean
 	 */
 	public function isLogged() {
-		// Is a session mechanism available?
-		if (!session_id()) {
-			if ($this->sessionManager) {
-				$this->sessionManager->start();
-			} else {
-				throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+		$this->byPassIsLogged = true;
+		try {
+			// Is a session mechanism available?
+			if (!session_id()) {
+				if ($this->sessionManager) {
+					$this->sessionManager->start();
+				} else {
+					throw new MoufException("The session must be initialized before checking if the user is logged. Please use session_start().");
+				}
 			}
+			
+			if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])) {
+				return true;
+			} else {
+				foreach ($this->authProviders as $provider){
+					/* @var $provider AuthenticationProviderInterface */
+					if ($provider->isLogged($this)){
+						return true;
+					} 
+				}
+			}
+		} catch (\Exception $e) {
+			$this->byPassIsLogged = false;
+			throw $e;
 		}
-		
-		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])) {
-			return true;
-		} else {
-			return false;
-		}
+		$this->byPassIsLogged = false;
+		return false;
 	}
 
 	/**
@@ -276,10 +294,19 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 			}
 		}
 		
-		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId']))
+		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])){
 			return $_SESSION[$this->sessionPrefix.'MoufUserId'];
-		else
-			return null; 
+		}
+		else{
+			foreach ($this->authProviders as $provider){
+				/* @var $provider AuthenticationProviderInterface */
+				$userId = $provider->getUserId($this);
+				if ($userId){
+					return $userId;
+				} 
+			}
+		}
+		return null; 
 	}
 	
 	/**
@@ -299,8 +326,16 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 		
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserLogin']))
 			return $_SESSION[$this->sessionPrefix.'MoufUserLogin'];
-		else
-			return null; 
+		else{
+			foreach ($this->authProviders as $provider){
+				/* @var $provider AuthenticationProviderInterface */
+				$login = $provider->getUserLogin($this);
+				if ($login){
+					return $login;
+				}
+			}
+		}
+		return null; 
 	}
 	
 	/**
@@ -321,8 +356,15 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 		if (isset($_SESSION[$this->sessionPrefix.'MoufUserId'])) {
 			return $this->userDao->getUserById($_SESSION[$this->sessionPrefix.'MoufUserId']);
 		} else {
-			return null;
+			foreach ($this->authProviders as $provider){
+				/* @var $provider AuthenticationProviderInterface */
+				$user = $provider->getLoggedUser($this);
+				if ($user){
+					return $user;
+				}
+			}
 		}
+		return null;
 	}
 	
 	/**
@@ -339,6 +381,14 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 		} else {
 			return new MoufValidatorResult(MoufValidatorResult::WARN, "<b>Userservice:</b> Unable to find the 'userService' instance. First, be sure to check that you have run all the required install processes. If you plan to use the UserService package, you need to run it's install process. It will create the 'userService' instance.");
 		}
+	}
+	
+	/**
+	 * A list of authentication providers that will complete the default 'logged' status, and help retrieve the current user
+	 * @param array<AuthenticationProviderInterface> $providers
+	 */
+	public function setAuthProviders($providers){
+		$this->authProviders = $providers;
 	}
 }
 ?>
