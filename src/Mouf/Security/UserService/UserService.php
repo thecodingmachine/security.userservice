@@ -245,6 +245,7 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 */
 	public function redirectNotLogged() {
 		// TODO: only if GET request!
+        http_response_code(403);
 		header("Location:".ROOT_URL.$this->loginPageUrl."?".$this->redirectParameter."=".urlencode($_SERVER['REQUEST_URI']));
 		exit;
 	}
