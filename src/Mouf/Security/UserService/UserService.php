@@ -159,7 +159,7 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 */
 	public function loginWithoutPassword($login) {
 		// First, if we are logged, let's unlog the user.
-		if (!$this->byPassIsLogged && $this->isLogged()) {
+		if ((!$this->byPassIsLogged || !isset($this->byPassIsLogged)) && $this->isLogged()) {
 			$this->logoff();
 		}
 		
