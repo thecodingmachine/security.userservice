@@ -97,7 +97,9 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 * @var array<AuthenticationProviderInterface>
 	 */
 	private $authProviders = [];
-	
+
+	private $byPassIsLogged = false;
+
 	/**
 	 * Logs the user using the provided login and password.
 	 * Returns true on success, false if the user or password is incorrect.
@@ -159,7 +161,7 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 */
 	public function loginWithoutPassword($login) {
 		// First, if we are logged, let's unlog the user.
-		if ((!$this->byPassIsLogged || !isset($this->byPassIsLogged)) && $this->isLogged()) {
+		if (!$this->byPassIsLogged && $this->isLogged()) {
 			$this->logoff();
 		}
 		
