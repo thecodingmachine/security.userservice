@@ -97,7 +97,9 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 	 * @var array<AuthenticationProviderInterface>
 	 */
 	private $authProviders = [];
-	
+
+	private $byPassIsLogged = false;
+
 	/**
 	 * Logs the user using the provided login and password.
 	 * Returns true on success, false if the user or password is incorrect.
