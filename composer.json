@@ -54,7 +54,11 @@
 				{
 					"title" : "UserService - Quick Example",
 					"url" : "doc/userservicesample.md"
-				}
+				},
+                {
+                  "title" : "UserService - 'Remember Me' feature",
+                  "url" : "doc/remember_me.md"
+                }
 			],
 			"logo" : "logo.png"
 		}

@@ -40,16 +40,17 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
     private $cookieName;
 
     /**
+     * Tells when the remember me feature is active
      * @var ConditionInterface
      */
     private $activateCondition;
 
     /**
      * @param RememberMeProviderInterface $rememberMeProvider
-     * @param string $expire
-     * @param string $url
-     * @param string $cookieName
-     * @param ConditionInterface $activateCondition
+     * @param string $expire the duration of the remember me cookie : can be either an integer value in which case it will be handled as minutes, or a string entering in the strtotime function, e.g. '1 month'
+     * @param string $url the URL for which the cookie is valid
+     * @param string $cookieName the name of the rememerMe cookie
+     * @param ConditionInterface $activateCondition tells when the remember me feature is active
      */
     function __construct(RememberMeProviderInterface $rememberMeProvider, $expire, $url, $cookieName, ConditionInterface $activateCondition)
     {
