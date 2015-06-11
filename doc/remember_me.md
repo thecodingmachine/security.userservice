@@ -54,3 +54,7 @@ function setUserRememberMeToken(UserInterface $user, $token){
 ![rememberMeAuthProvider instance](images/remember_me_bound_userservice.png)
 
 That's it, you're done !
+
+### Integrate the "remember me" feature to the `SimpleLoginController`
+
+You also may plug this feature to the Simple Login Controller, lean more about it here : [SimpleLogincontroller - Intergrate the `UserService.RememberMe` feature](http://mouf-php.com/packages/mouf/security.simplelogincontroller/doc/integrate_remember_me.md)
