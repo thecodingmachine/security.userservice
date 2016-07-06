@@ -2,7 +2,7 @@
 namespace Mouf\Security\UserService;
 
 /**
- * Services implementing this interface can be used to check user's authrntication and retrieve it.
+ * Services implementing this interface can be used to check user's authentication and retrieve it.
  *
  */
 interface AuthenticationProviderInterface {
