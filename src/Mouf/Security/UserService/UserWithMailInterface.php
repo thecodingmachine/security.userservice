@@ -6,20 +6,20 @@ namespace Mouf\Security\UserService;
  * These objects have more information on the user than objects implementing the classic UserInterface.
  *
  */
-interface UserWithMailInterface extends UserInterface {
-	
-	/**
-	 * Returns the full name of the user.
-	 *
-	 * @return string
-	 */
-	public function getFullName();
-	
-	/**
-	 * Returns the email address of the current user.
-	 *
-	 * @return string
-	 */
-	public function getEmail();
+interface UserWithMailInterface extends UserInterface
+{
+    
+    /**
+     * Returns the full name of the user.
+     *
+     * @return string
+     */
+    public function getFullName();
+    
+    /**
+     * Returns the email address of the current user.
+     *
+     * @return string
+     */
+    public function getEmail();
 }
-?>

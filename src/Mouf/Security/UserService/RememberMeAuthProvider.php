@@ -1,12 +1,14 @@
 <?php
 namespace Mouf\Security\UserService;
+
 use Mouf\Utils\Common\ConditionInterface\ConditionInterface;
 
 /**
  * This class will implement the "remember me" functionality.
  * It plugs to the userService on both authenticationListener and authenticationProvider properties
  */
-class RememberMeAuthProvider implements AuthenticationProviderInterface, AuthenticationListenerInterface{
+class RememberMeAuthProvider implements AuthenticationProviderInterface, AuthenticationListenerInterface
+{
 
 
     /**
@@ -52,7 +54,7 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
      * @param string $cookieName the name of the rememerMe cookie
      * @param ConditionInterface $activateCondition tells when the remember me feature is active
      */
-    function __construct(RememberMeProviderInterface $rememberMeProvider, $expire, $url, $cookieName, ConditionInterface $activateCondition)
+    public function __construct(RememberMeProviderInterface $rememberMeProvider, $expire, $url, $cookieName, ConditionInterface $activateCondition)
     {
         $this->rememberMeProvider = $rememberMeProvider;
         $this->expire = $expire;
@@ -63,65 +65,71 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
 
 
     /**
-	 * (non-PHPdoc)
-	 * @see \Mouf\Security\UserService\IsLoggedProviderInterface::isLogged()
-	 */
-	public function isLogged(UserServiceInterface $userService){
-		$user = $this->getAndLogUserByCookie($userService);
-		if ($user){
-			$this->refreshRememberCookie($user, false);
-			return true;
-		}else{
-			return false;
-		}
-	}
+     * (non-PHPdoc)
+     * @see \Mouf\Security\UserService\IsLoggedProviderInterface::isLogged()
+     */
+    public function isLogged(UserServiceInterface $userService)
+    {
+        $user = $this->getAndLogUserByCookie($userService);
+        if ($user) {
+            $this->refreshRememberCookie($user, false);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getUserId()
-	 */
-	public function getUserId(UserServiceInterface $userService){
-		$user = $this->getAndLogUserByCookie($userService);
-		return $user ? $user->getId() : null; 
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getUserLogin()
-	 */
-	public function getUserLogin(UserServiceInterface $userService){
-		$user = $this->getAndLogUserByCookie($userService);
-		return $user ? $user->getLogin() : null;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getLoggedUser()
-	 */
-	public function getLoggedUser(UserServiceInterface $userService){
-		return $this->getAndLogUserByCookie($userService);
-	}
+    /**
+     * (non-PHPdoc)
+     * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getUserId()
+     */
+    public function getUserId(UserServiceInterface $userService)
+    {
+        $user = $this->getAndLogUserByCookie($userService);
+        return $user ? $user->getId() : null;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getUserLogin()
+     */
+    public function getUserLogin(UserServiceInterface $userService)
+    {
+        $user = $this->getAndLogUserByCookie($userService);
+        return $user ? $user->getLogin() : null;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Mouf\Security\UserService\AuthenticationProviderInterface::getLoggedUser()
+     */
+    public function getLoggedUser(UserServiceInterface $userService)
+    {
+        return $this->getAndLogUserByCookie($userService);
+    }
 
     /**
      * @param UserServiceInterface $userService
      */
-	public function beforeLogOut(UserServiceInterface $userService){
-		if (isset($_COOKIE[$this->cookieName])){
-			unset($_COOKIE[$this->cookieName]);
-			setcookie($this->cookieName, '', time() - 3600, $this->url);
-		}
-	}
+    public function beforeLogOut(UserServiceInterface $userService)
+    {
+        if (isset($_COOKIE[$this->cookieName])) {
+            unset($_COOKIE[$this->cookieName]);
+            setcookie($this->cookieName, '', time() - 3600, $this->url);
+        }
+    }
 
     /**
      * @param UserServiceInterface $userService
      */
-	public function afterLogIn(UserServiceInterface $userService){
-        if ($this->activateCondition->isOk($_REQUEST)){
+    public function afterLogIn(UserServiceInterface $userService)
+    {
+        if ($this->activateCondition->isOk($_REQUEST)) {
             $user = $userService->getLoggedUser();
             /* @var $adminUser AdminUserBean */
             $this->refreshRememberCookie($user);
         }
-	}
+    }
 
     /**
      * Refresh the expiration time of the remember me cookie.
@@ -129,11 +137,12 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
      * @param UserInterface $user
      * @param bool $gerenateToken
      */
-    private function refreshRememberCookie(UserInterface $user, $gerenateToken = true){
+    private function refreshRememberCookie(UserInterface $user, $gerenateToken = true)
+    {
         $expire = is_numeric($this->expire) ? time() + 60 * $this>expire : strtotime("+" . $this->expire);
-        if (!$gerenateToken){
+        if (!$gerenateToken) {
             $token = $_COOKIE[$this->cookieName];
-        }else{
+        } else {
             $token = $this->randomPassword(32);
         }
 
@@ -142,7 +151,8 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
         setcookie($this->cookieName, $token, $expire, $this->url);
     }
 
-    private function getAndLogUserByCookie(UserServiceInterface $userService){
+    private function getAndLogUserByCookie(UserServiceInterface $userService)
+    {
         if (isset($_COOKIE[$this->cookieName])) {
             $token = $_COOKIE[$this->cookieName];
             $user = $this->rememberMeProvider->getUserByRememberMeToken($token);
@@ -154,7 +164,8 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
         return null;
     }
 
-    private function randomPassword($length = 8) {
+    private function randomPassword($length = 8)
+    {
         $alphabet = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -164,5 +175,4 @@ class RememberMeAuthProvider implements AuthenticationProviderInterface, Authent
         }
         return implode($pass); //turn the array into a string
     }
-	
 }
