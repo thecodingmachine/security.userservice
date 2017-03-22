@@ -6,20 +6,20 @@ namespace Mouf\Security\UserService;
  * The class must be registered in the UserService instance to be called.
  *
  */
-interface AuthenticationListenerInterface {
-	
-	/**
-	 * This method is called just after a log-in occurs.
-	 *
-	 * @param UserServiceInterface $userService The service that performed the log-in
-	 */
-	public function afterLogIn(UserServiceInterface $userService);
-	
-	/**
-	 * This method is called just before the current user logs out.
-	 *
-	 * @param UserServiceInterface $userService The service that performed the log-out
-	 */
-	public function beforeLogOut(UserServiceInterface $userService);
+interface AuthenticationListenerInterface
+{
+    
+    /**
+     * This method is called just after a log-in occurs.
+     *
+     * @param UserServiceInterface $userService The service that performed the log-in
+     */
+    public function afterLogIn(UserServiceInterface $userService);
+    
+    /**
+     * This method is called just before the current user logs out.
+     *
+     * @param UserServiceInterface $userService The service that performed the log-out
+     */
+    public function beforeLogOut(UserServiceInterface $userService);
 }
-?>

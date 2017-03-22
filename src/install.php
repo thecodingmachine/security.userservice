@@ -16,15 +16,15 @@ InstallUtils::init(InstallUtils::$INIT_APP);
 // Let's create the instance
 $moufManager = MoufManager::getMoufManager();
 if (!$moufManager->instanceExists("userService")) {
-	$userService = $moufManager->createInstance("Mouf\\Security\\UserService\\UserService");
-	$userService->setName("userService");
-	if ($moufManager->instanceExists("psr.errorLogLogger")) {
-		$userService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("psr.errorLogLogger"));
-	}
-	if ($moufManager->instanceExists("sessionManager")) {
-		$userService->getProperty("sessionManager")->setValue($moufManager->getInstanceDescriptor("sessionManager"));
-	}
-	$userService->getProperty('sessionPrefix')->setValue('SECRET')->setOrigin('config');
+    $userService = $moufManager->createInstance("Mouf\\Security\\UserService\\UserService");
+    $userService->setName("userService");
+    if ($moufManager->instanceExists("psr.errorLogLogger")) {
+        $userService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("psr.errorLogLogger"));
+    }
+    if ($moufManager->instanceExists("sessionManager")) {
+        $userService->getProperty("sessionManager")->setValue($moufManager->getInstanceDescriptor("sessionManager"));
+    }
+    $userService->getProperty('sessionPrefix')->setValue('SECRET')->setOrigin('config');
 }
 
 // Let's rewrite the MoufComponents.php file to save the component
@@ -32,4 +32,3 @@ $moufManager->rewriteMouf();
 
 // Finally, let's continue the install
 InstallUtils::continueInstall();
-?>
