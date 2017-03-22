@@ -118,6 +118,11 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface 
 				throw new MoufException("The session must be initialized before trying to login. Please use session_start().");
 			}
 		}
+
+		// Let's regenerate the session ID to avoid session fixation attacks.
+        if ($this->sessionManager) {
+            $this->sessionManager->regenerateId();
+        }
 		
 		// First, if we are logged, let's unlog the user.
 		if ($this->isLogged()) {
