@@ -279,15 +279,16 @@ class UserService implements UserServiceInterface, MoufStaticValidatorInterface
         }
         
         if (isset($_SESSION[$this->sessionPrefix.'MoufUserLogin'])) {
+            $login = $_SESSION[$this->sessionPrefix.'MoufUserLogin'];
             if (is_array($this->authenticationListeners)) {
                 foreach ($this->authenticationListeners as $listener) {
                     $listener->beforeLogOut($this);
                 }
             }
             if ($this->log instanceof LoggerInterface) {
-                $this->log->debug("User '{login}' logs out.", array('login'=>$_SESSION[$this->sessionPrefix.'MoufUserLogin']));
+                $this->log->debug("User '{login}' logs out.", array('login' => $login));
             } else {
-                $this->log->trace("User '".$_SESSION[$this->sessionPrefix.'MoufUserLogin']."' logs out.");
+                $this->log->trace("User '".$login."' logs out.");
             }
             unset($_SESSION[$this->sessionPrefix.'MoufUserId']);
             unset($_SESSION[$this->sessionPrefix.'MoufUserLogin']);
