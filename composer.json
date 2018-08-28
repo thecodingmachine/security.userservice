@@ -25,7 +25,8 @@
 		"mouf/utils.constants.secret" : "~1.0",
 		"mouf/mouf-validators-interface" : "~2.0",
 		"psr/log" : "^1",
-		"thecodingmachine/funky": "^1"
+		"thecodingmachine/funky": "^1",
+		"psr/container": "^1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^7.3.1",
