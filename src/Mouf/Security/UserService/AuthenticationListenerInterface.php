@@ -14,12 +14,12 @@ interface AuthenticationListenerInterface
      *
      * @param UserServiceInterface $userService The service that performed the log-in
      */
-    public function afterLogIn(UserServiceInterface $userService);
+    public function afterLogIn(UserServiceInterface $userService): void;
     
     /**
      * This method is called just before the current user logs out.
      *
      * @param UserServiceInterface $userService The service that performed the log-out
      */
-    public function beforeLogOut(UserServiceInterface $userService);
+    public function beforeLogOut(UserServiceInterface $userService): void;
 }

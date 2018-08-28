@@ -13,15 +13,13 @@ interface RememberMeProviderInterface
 
     /**
      * Identify the current user by the "remember me" cookie if exists
-     * @param UserServiceInterface $userService
-     * @return UserInterface
      */
-    public function getUserByRememberMeToken($token);
+    public function getUserByRememberMeToken(string $token): ?UserInterface;
 
     /**
      * Sets the "remember me" cookie value into the user
      * @param UserInterface $user
      * @param string $token
      */
-    public function setUserRememberMeToken(UserInterface $user, $token);
+    public function setUserRememberMeToken(UserInterface $user, string $token): void;
 }

@@ -16,7 +16,7 @@ interface UserServiceInterface
      * @param string $password
      * @return boolean.
      */
-    public function login($user, $password);
+    public function login(string $user, string $password): bool;
     
     /**
      * Logs the user using the provided login.
@@ -27,7 +27,7 @@ interface UserServiceInterface
      *
      * @param string $login
      */
-    public function loginWithoutPassword($login);
+    public function loginWithoutPassword(string $login): void;
     
     /**
      * Logs a user using a token. The token should be discarded as soon as it
@@ -35,46 +35,39 @@ interface UserServiceInterface
      *
      * @param string $token
      */
-    public function loginViaToken($token);
+    public function loginViaToken(string $token): bool;
     
     /**
      * Returns "true" if the user is logged, "false" otherwise.
      *
      * @return boolean
      */
-    public function isLogged();
+    public function isLogged(): bool;
 
-    /**
-     * Redirects the user to the login page if he is not logged.
-     *
-     * @return boolean
-     */
-    public function redirectNotLogged();
-    
     /**
      * Logs the user off.
      *
      */
-    public function logoff();
+    public function logoff(): void;
     
     /**
      * Returns the current user ID.
      *
-     * @return string
+     * @return string|int|null
      */
     public function getUserId();
     
     /**
      * Returns the current user login.
      *
-     * @return string
+     * @return string|null
      */
-    public function getUserLogin();
+    public function getUserLogin(): ?string;
     
     /**
      * Returns the user that is logged (or null if no user is logged).
      *
-     * return UserInterface
+     * return UserInterface|null
      */
-    public function getLoggedUser();
+    public function getLoggedUser(): ?UserInterface;
 }

@@ -1,0 +1,8 @@
+parameters:
+    ignoreErrors:
+     # TODO: migrate user service to PSR7
+     - "#you should not use the \\$_COOKIE superglobal#"
+     - "#you should not use the \\$_SESSION superglobal#"
+     - "#you should not use the \\$_REQUEST superglobal#"
+includes:
+    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon

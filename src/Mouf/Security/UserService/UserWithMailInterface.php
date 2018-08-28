@@ -14,12 +14,12 @@ interface UserWithMailInterface extends UserInterface
      *
      * @return string
      */
-    public function getFullName();
+    public function getFullName(): string;
     
     /**
      * Returns the email address of the current user.
      *
      * @return string
      */
-    public function getEmail();
+    public function getEmail(): string;
 }

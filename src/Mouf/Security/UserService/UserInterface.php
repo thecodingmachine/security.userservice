@@ -11,7 +11,7 @@ interface UserInterface
     /**
      * Returns the ID for the current user.
      *
-     * @return string
+     * @return string|int
      */
     public function getId();
     
@@ -20,5 +20,5 @@ interface UserInterface
      *
      * @return string
      */
-    public function getLogin();
+    public function getLogin(): string;
 }
