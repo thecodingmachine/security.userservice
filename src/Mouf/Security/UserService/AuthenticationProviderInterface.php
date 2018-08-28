@@ -13,27 +13,27 @@ interface AuthenticationProviderInterface
      *
      * @return boolean
      */
-    public function isLogged(UserServiceInterface $userService);
+    public function isLogged(UserServiceInterface $userService): bool;
 
     
     /**
      * Returns the current user ID.
      *
-     * @return string
+     * @return string|int|null
      */
     public function getUserId(UserServiceInterface $userService);
     
     /**
      * Returns the current user login.
      *
-     * @return string
+     * @return string|null
      */
-    public function getUserLogin(UserServiceInterface $userService);
+    public function getUserLogin(UserServiceInterface $userService): ?string;
     
     /**
      * Returns the user that is logged (or null if no user is logged).
      *
-     * return UserInterface
+     * return UserInterface|null
      */
-    public function getLoggedUser(UserServiceInterface $userService);
+    public function getLoggedUser(UserServiceInterface $userService): ?UserInterface;
 }

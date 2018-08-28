@@ -24,7 +24,7 @@ class IsLoggedCondition implements ConditionInterface
      * @Compulsory
      * @param UserServiceInterface $userService
      */
-    public function setUserService(UserServiceInterface $userService)
+    public function setUserService(UserServiceInterface $userService): void
     {
         $this->userService = $userService;
     }
@@ -35,7 +35,7 @@ class IsLoggedCondition implements ConditionInterface
      * @param mixed $caller The condition caller. Optional, and not used by this class.
      * @return bool
      */
-    public function isOk($caller = null)
+    public function isOk($caller = null): bool
     {
         return $this->userService->isLogged();
     }

@@ -13,32 +13,32 @@ interface UserDaoInterface
      *
      * @param string $login
      * @param string $password
-     * @return UserInterface
+     * @return UserInterface|null
      */
-    public function getUserByCredentials($login, $password);
+    public function getUserByCredentials(string $login, string $password): ?UserInterface;
 
     /**
      * Returns a user from its token.
      *
      * @param string $token
-     * @return UserInterface
+     * @return UserInterface|null
      */
-    public function getUserByToken($token);
+    public function getUserByToken(string $token): ?UserInterface;
     
     /**
      * Discards a token.
      *
      * @param string $token
      */
-    public function discardToken($token);
+    public function discardToken(string $token): void;
     
     /**
      * Returns a user from its ID
      *
-     * @param string $id
+     * @param string|int $id
      * @return UserInterface
      */
-    public function getUserById($id);
+    public function getUserById($id): ?UserInterface;
     
     /**
      * Returns a user from its login
@@ -46,5 +46,5 @@ interface UserDaoInterface
      * @param string $login
      * @return UserInterface
      */
-    public function getUserByLogin($login);
+    public function getUserByLogin(string $login): ?UserInterface;
 }
