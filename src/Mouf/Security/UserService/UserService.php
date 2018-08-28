@@ -41,7 +41,7 @@ class UserService implements UserServiceInterface
      *
      * @var array<AuthenticationListenerInterface>
      */
-    private $authenticationListeners;
+    private $authenticationListeners = [];
 
     /**
      * In case you have several Mouf applications using the UserService running on the same server, in the same domain, you
