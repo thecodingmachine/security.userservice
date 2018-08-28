@@ -3,7 +3,6 @@
 
 namespace Mouf\Security\UserService;
 
-
 use Mouf\Utils\Session\SessionManager\SessionManagerInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
