@@ -17,35 +17,19 @@ use Mouf\Validator\MoufValidatorResult;
  */
 class UserService implements UserServiceInterface
 {
-    
-    /**
-     * The path to the login page, relative to the root of the application.
-     * The path is relative to the ROOT of the web application.
-     * It should not start with a "/".
-     *
-     * @Property
-     * @Compulsory
-     * @var string
-     */
-    public $loginPageUrl;
-    
     /**
      * The user DAO
      *
-     * @Property
-     * @Compulsory
      * @var UserDaoInterface
      */
-    public $userDao;
+    private $userDao;
     
     /**
      * The logger for this service
      *
-     * @Property
-     * @Compulsory
      * @var LoggerInterface
      */
-    public $log;
+    private $log;
     
     /**
      * This is an array containing all components that should be notified
@@ -57,41 +41,23 @@ class UserService implements UserServiceInterface
      *
      * @var array<AuthenticationListenerInterface>
      */
-    public $authenticationListeners;
+    private $authenticationListeners;
 
     /**
      * In case you have several Mouf applications using the UserService running on the same server, in the same domain, you
      * should use a different session prefix for each application in order to avoid "melting" the sessions.
      *
-     * @Property
-     * @Compulsory
      * @var string
      */
-    public $sessionPrefix;
-    
-    /**
-     * When the user tries to access a page that requires to be
-     * logged, he is redirected the login page.
-     * The URL he tried to access is appended to the login page. You can customize the
-     * name of the URL parameter for the redirect.
-     *
-     * For instance, if $redirectParameter = "redir", then your
-     * redirection URL might look like:
-     * 	http://[myserver]/[myapp]/[$loginPageUrl]?redir=%2F[myapp]%2F[my]%2F[page]%2F
-     *
-     * @Property
-     * @Compulsory
-     * @var string
-     */
-    public $redirectParameter = "redirect";
-    
+    private $sessionPrefix;
+
     /**
      * The session manager interface.
      * If set, it will be used to init the session if the session was not started.
      *
      * @var SessionManagerInterface|null
      */
-    public $sessionManager;
+    private $sessionManager;
     
     /**
      * A list of authentication providers that will complete the default 'logged' status, and help retrieve the current user
@@ -100,6 +66,14 @@ class UserService implements UserServiceInterface
     private $authProviders = [];
 
     private $byPassIsLogged = false;
+
+    public function __construct(UserDaoInterface $userDao, LoggerInterface $log, SessionManagerInterface $sessionManager = null, string $sessionPrefix = '')
+    {
+        $this->userDao = $userDao;
+        $this->log = $log;
+        $this->sessionManager = $sessionManager;
+        $this->sessionPrefix = $sessionPrefix;
+    }
 
     /**
      * Logs the user using the provided login and password.
@@ -368,5 +342,18 @@ class UserService implements UserServiceInterface
     public function addAuthProvider(AuthenticationProviderInterface $authenticationProvider): void
     {
         $this->authProviders[] = $authenticationProvider;
+    }
+
+    /**
+     * @param AuthenticationListenerInterface[] $authenticationListeners
+     */
+    public function setAuthenticationListeners(array $authenticationListeners): void
+    {
+        $this->authenticationListeners = $authenticationListeners;
+    }
+
+    public function addAuthenticationListener(AuthenticationListenerInterface $authenticationListener): void
+    {
+        $this->authenticationListeners[] = $authenticationListener;
     }
 }
