@@ -38,9 +38,6 @@
 		"squizlabs/php_codesniffer": "^3.3.1",
 		"mouf/utils.log.psr.errorlog_logger" : "^2"
 	},
-	"conflict": {
-		"mouf/mouf": "~2.0.0"
-	},
 	"autoload" : {
 		"psr-0" : {
 			"Mouf\\Security\\UserService" : "src/"
